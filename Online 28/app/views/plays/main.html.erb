@@ -1,0 +1,98 @@
+<span >
+	<% @share= Share.find(:all)%>
+	<% @psize=Player.find(:all)%>
+	<% if @psize.size==4 %>
+		<h3>Max Bidder : <%=@share.at(0).maxBidder%>&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;Max Bidden Points : <%=@share.at(0).maxBidPoints%>&nbsp;&nbsp;&nbsp;
+		<% if @share.at(0).trumpShow==true%>
+			&nbsp;&nbsp;&nbsp;Trump Suit : <%=@share.at(0).trumpSuit%>&nbsp;&nbsp;&nbsp;
+		<% end%>
+		&nbsp;&nbsp;&nbsp;Teams : <%= @share.at(0).playerAname%> & <%= @share.at(0).playerCname%> VS <%= @share.at(0).playerBname%> & <%= @share.at(0).playerDname%></h3>
+		<h3 style="text-align: center ; color : green">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		Player : <%= session[:playername] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signalled Player : <%=@share.at(0).signalledPlayername%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<% @t=Trick.find(:all) %>
+		<% if (@share.at(0).trickOn==false && @t.size>0 ) || (@share.at(0).trickOn==true && @t.size>1) %>
+		<% if @share.at(0).trickOn==true %>
+			<% @tmp=@t.size-1 %>
+		<% else %>
+			<% @tmp=@t.size %>
+		<% end %>
+		<select name="trickWinnerName">
+		<% for i in 1..@tmp %>
+			<option value="">Trick <%= i %> Winner : <%= @t.at(i-1).trickwinnername %></option>
+		<% end %>
+		</select>
+		<% end %></h3>
+	<% end%>
+	<% if (@share.at(0).biddingProcess==true && @share.at(0).signalledPlayername==session[:playername]) %>
+		<form action="/plays/bid" method="get" style="text-align: center">
+			<select name="points">
+				<% for i in 13..28 %>
+					<option value=<%= i%>><% if i==13%>
+												Pass
+											<% else %>
+												<%= i%>
+											<% end %>
+					</option>
+				<% end %>
+			</select>
+			<input type="submit" value="Bid">
+		</form>
+	<% end %>
+	<% if( @share.at(0).setTrumpProcess==true && @share.at(0).trumpSuit=="not set" && @share.at(0).signalledPlayername==session[:playername]) %>
+		<form action="/plays/trumpset" method="get" style="text-align: right">
+			<select name="trumpsuit">
+				<% for i in ["spades", "hearts", "diamonds", "clubs", "No trump"] %>
+					<option value="<%= i%>"><%= i%></option>
+				<% end %>
+			</select>
+			<input type="submit" value="Set Trump Suit">
+		</form>
+	<% end %>
+<% if @share.at(0).gameOn==false %>
+<h3 style="text-align: center ; color : red">Game Winner Team : <%= @share.at(0).gamewinner %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Winning team points : <%= @share.at(0).winnerpoints %></h3>
+<% end %>
+</span>
+<h3 style=" color : blue"> Cards dealt to <%= session[:playername] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type=button onClick="location.href='/plays/main'" value='Get Update'></h3>
+<form action="/plays/move" method="get">
+<% for card in @cards %>
+	<img src="<%= card.img %>" />
+	<% if (@share.at(0).trickOn==true && @share.at(0).signalledPlayername==session[:playername]) %>
+	<input type="radio" name="cardid" value=<%=card.id%>>
+	<% end %>
+<% end %>
+<% if (@share.at(0).trickOn==true && @share.at(0).signalledPlayername==session[:playername])%>
+	<br><input type="submit" value="Play the Card">
+<% end %>
+</form>
+<% @p=Player.find(:all) %>
+<% if (@share.at(0).biddingProcess==false && @p.size==4 && @share.at(0).setTrumpProcess==false) %>
+<input type=button onClick="location.href='/plays/bidding'" value='Start Bidding Process'>
+<% end %>
+<% @t=Trick.find(:all) %>
+<% if (@share.at(0).trumpSuit!="not set" ) %>
+<% if (@share.at(0).trickOn == false && @t.size<8 ) %>
+<input type=button onClick="location.href='/plays/trick'" value='Start trick : <%= @t.size + 1%>'>
+<% else %>
+<% if @share.at(0).signalledPlayername==session[:playername] %>
+<% if @share.at(0).trumpShow == false %>
+	<input type=button onClick="location.href='/plays/asktrump'" value='Show Trump Suit'>
+<% else %>
+	<input type=button onClick="location.href='/plays/claimpair'" value='Claim Pair'>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+<% if @t.size > 0 %>
+<h3 style=" color : green"> Moves in Trick : <%= @t.size %></h3>
+<% @moves=Move.find(:all, :conditions=>["trickno=?",@t.at(@t.size-1).trickno])%>
+<% for move in @moves %>
+	<%= move.playername  %>
+	<% @card=Card.find(:all, :conditions=>["suit=? AND cardno=?",move.cardsuit, move.cardno]) %>
+	<img src="<%= @card.at(0).img %>" />
+<% end %>
+<% end %>
+<br><br><input type=button onClick="location.href='/plays/destroy'" value='destroy game'>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  playerAid: 1
+  playerBid: 1
+  playerCid: 1
+  playerDid: 1
+
+two:
+  playerAid: 1
+  playerBid: 1
+  playerCid: 1
+  playerDid: 1

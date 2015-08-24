@@ -1,0 +1,18 @@
+<br><h1>New Player</h1>
+
+<%= error_messages_for :player %>
+
+<% form_for(@player,:url=>{:action=>'create'}) do |f| %>
+  <p>
+    <br><b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <br><%= f.submit "Play Game" %>
+  </p>
+<% end %>
+<br><br>
+<% for i in 1..8 %>
+<img src="/images/cards.jpg" />
+<% end %>

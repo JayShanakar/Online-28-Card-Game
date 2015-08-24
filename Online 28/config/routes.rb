@@ -1,0 +1,15 @@
+ActionController::Routing::Routes.draw do |map|
+  map.connect '/plays/destroy',  :controller=>'plays', :action=>'destroy'
+  map.connect '/plays/claimpair',  :controller=>'plays', :action=>'claimpair'
+  map.connect '/plays/asktrump',  :controller=>'plays', :action=>'asktrump'
+  map.connect '/plays/move',  :controller=>'plays', :action=>'move'
+  map.connect '/plays/trick',  :controller=>'plays', :action=>'trick'
+  map.connect '/plays/trumpset',  :controller=>'plays', :action=>'trumpset'
+  map.connect '/plays/bid',  :controller=>'plays', :action=>'bid'
+  map.connect '/plays/bidding',  :controller=>'plays', :action=>'bidding'
+  map.connect '/plays/create',  :controller=>'plays', :action=>'create'
+  map.connect '/plays/main', :controller=>'plays', :action=>'main'
+  map.connect '/plays/',  :controller=>'plays', :action=>'home'
+  map.connect ':controller/:action/:id'
+  map.connect ':controller/:action/:id.:format'
+end

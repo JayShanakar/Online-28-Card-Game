@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  suit: MyString
+  cardno: MyString
+  points: 1
+  playerid: 1
+  dealstatus: false
+  playstatus: false
+
+two:
+  suit: MyString
+  cardno: MyString
+  points: 1
+  playerid: 1
+  dealstatus: false
+  playstatus: false

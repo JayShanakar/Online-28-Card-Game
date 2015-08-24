@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  trickno: 1
+  trickwinnerid: 1
+  trickleadid: 1
+  gameid: 1
+  trickpoints: 1
+  tricksuit: MyString
+
+two:
+  trickno: 1
+  trickwinnerid: 1
+  trickleadid: 1
+  gameid: 1
+  trickpoints: 1
+  tricksuit: MyString

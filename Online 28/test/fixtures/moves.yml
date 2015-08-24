@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  trickid: 1
+  gameid: 1
+  playerid: 1
+  moveno: 1
+  cardsuit: MyString
+  cardno: MyString
+  cardpoints: 1
+
+two:
+  trickid: 1
+  gameid: 1
+  playerid: 1
+  moveno: 1
+  cardsuit: MyString
+  cardno: MyString
+  cardpoints: 1
